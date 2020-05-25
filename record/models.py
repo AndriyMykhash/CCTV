@@ -1,8 +1,7 @@
 from django.db import models
 from rest_framework import permissions
 from datetime import datetime
-import os
-import uuid
+import os, uuid
 
 # permission_classes = [permissions.IsAuthenticated]
 def get_upload_path():
@@ -14,5 +13,9 @@ class Record(models.Model):
     name = models.CharField(max_length=50)
     time = models.DateTimeField(default=datetime.now, blank=True)
     image = models.ImageField(upload_to=get_upload_path())
+    
+    def __str__(self):
+        return self.name
+
     class Meta:
-        ordering = ['time']
+        ordering = ['-time']

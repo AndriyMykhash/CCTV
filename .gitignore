@@ -1,0 +1,5 @@
+.vscode/
+CCTV/__pycache__
+record/__pycache__
+users/__pycache__
+.git/
