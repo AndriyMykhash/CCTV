@@ -11,7 +11,6 @@ class UserManager(BaseUserManager):
         user = self.model(email=self.normalize_email(email),)
         user.set_first_name(first_name)
         user.set_last_name(last_name)
-        # encrypted = make_password(password)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -29,7 +28,6 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=50, unique=False)
     last_name = models.CharField(max_length=50, unique=False)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False) # del
     is_superuser = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
