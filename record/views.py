@@ -1,17 +1,14 @@
 from .serializer import RecordSerializer
 from .models import Record
-# from rest_framework.authentication import SessionAuthentication
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-import os
-from users import models
+
 
 class RecordView(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
-    # authentication_classes = [SessionAuthentication]
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
 
@@ -19,18 +16,23 @@ class RecordView(viewsets.ViewSet):
         queryset = Record.objects.all()
         serializer = RecordSerializer(queryset, many=True)
         return Response(serializer.data)
-      
+
     def retrieve(self, request, pk=None):
         queryset = Record.objects.all()
         record = get_object_or_404(queryset, pk=pk)
         serializer = RecordSerializer(record)
         return Response(serializer.data)
-    
+
     def create(self, request):
         serializer = RecordSerializer(data=request.data)
-        if serializer.is_valid():  
+        if serializer.is_valid(True):
+            status_code = status.HTTP_201_CREATED
+            response = {
+                'success': 'True',
+                'status code': status_code,
+                'message': 'Camera record write successfully',
+                'data': str(serializer.data)
+            }
             serializer.save().save_base()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(response, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-

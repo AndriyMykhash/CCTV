@@ -1,19 +1,18 @@
 from django.db import models
-from rest_framework import permissions
-from datetime import datetime
+from django.utils import timezone
 import os, uuid
 
-# permission_classes = [permissions.IsAuthenticated]
+
 def get_upload_path():
-    return os.path.join('record/', datetime.now().date().strftime("%Y/%m/%d"))
+    return os.path.join('record/', timezone.now().date().strftime("%Y/%m/%d"))
 
 
 class Record(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
-    time = models.DateTimeField(default=datetime.now, blank=True)
+    time = models.DateTimeField(default=timezone.now, blank=True)
     image = models.ImageField(upload_to=get_upload_path())
-    
+
     def __str__(self):
         return self.name
 
