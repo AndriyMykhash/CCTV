@@ -27,14 +27,10 @@ class RecordView(viewsets.ViewSet):
         return Response(serializer.data)
     
     def create(self, request):
-        # serializer_context = {
-        #     'request': request,
-        # }
-        # serializer = RecordSerializer(data=request.data, context=serializer_context)
-        serializer = RecordSerializer(data=request.data)#, context=serializer_context)
+        serializer = RecordSerializer(data=request.data)
         if serializer.is_valid():  
             serializer.save().save_base()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
