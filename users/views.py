@@ -24,15 +24,12 @@ class UserRegistrationView(generics.CreateAPIView):
             user.save_base()
             token_refresh = MyTokenObtainPairSerializer().get_token(user)
             token_access = AccessToken().for_user(user)
-            status_code = status.HTTP_201_CREATED
             response = {
-                'success': 'True',
-                'status code': status_code,
                 'message': 'User registered  successfully',
                 'tokens': {
                     "refresh": str(token_refresh),
                     "access": str(token_access)
                 }
             }
-            return Response(response, status=status_code)
+            return Response(response, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

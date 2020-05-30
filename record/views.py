@@ -26,13 +26,6 @@ class RecordView(viewsets.ViewSet):
     def create(self, request):
         serializer = RecordSerializer(data=request.data)
         if serializer.is_valid(True):
-            status_code = status.HTTP_201_CREATED
-            response = {
-                'success': 'True',
-                'status code': status_code,
-                'message': 'Camera record write successfully',
-                'data': str(serializer.data)
-            }
             serializer.save().save_base()
-            return Response(response, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
