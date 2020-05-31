@@ -4,3 +4,5 @@ record/__pycache__/
 users/__pycache__/
 .git/
 .idea/
+record/migrations/__pycache__/
+users/migrations/__pycache__/
